@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/drgrib/ttimer/agent"
 	"github.com/drgrib/ttimer/parse"
+	"os"
+	"time"
 )
 
 //////////////////////////////////////////////
@@ -18,8 +18,15 @@ var args struct {
 }
 
 func init() {
+	if os.Args[1] == "--install" {
+		fmt.Println("Install in progress...")
+		time.Sleep(3 * time.Second)
+		os.Exit(0)
+	}
+
 	switch len(os.Args) {
 	case 3:
+
 		if os.Args[1] == "-q" {
 			args.q = true
 			args.t = os.Args[2]
@@ -44,7 +51,7 @@ func main() {
 	d, title, err := parse.Args(args.t)
 	if err != nil {
 		fmt.Println(err.Error())
-		fmt.Println("\nPlease refer to https://github.com/drgrib/ttimer for usage instructions.")
+		fmt.Println("\nPlease refer to https://github.com/MaxCoteLeKing/ttimer for usage instructions.")
 		return
 	}
 

@@ -1,29 +1,22 @@
 # ttimer - Terminal Timer
 
-`ttimer` is a simple timer that counts down time left in a terminal window. If run on Mac, Windows, or desktop Linux, it will send silent system notifications at 90% and 100% completion.
+`ttimer` is a simple timer that counts down time left in a terminal window. If run on Windows, or desktop Linux, it will send silent system notifications at 90% and 100% completion.
 
 <img src="./example.gif" alt="demo" width="400px">
 
+Forked version with added support for WinGet.
+
 ## Installing
 
-### macOS
-
-```
-brew install drgrib/tap/ttimer
-```
+Install via WinGet coming soon!
 
 #### Upgrading
 
-To get the latest version after installing with `brew`, use
-
-```
-brew upgrade ttimer
-```
 
 ### go get
 
 ```
-go get github.com/drgrib/ttimer
+go get github.com/MaxCoteLeKing/ttimer
 ```
 
 To make it accessible on the command line as `ttimer`, assuming you've added `$GOPATH/bin` to your `$PATH`, you can use
