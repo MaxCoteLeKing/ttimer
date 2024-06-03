@@ -6,6 +6,8 @@
 
 Forked version with added support for WinGet.
 
+Original version and all credits go to: https://github.com/drgrib/ttimer
+
 ## Installing
 
 Install via WinGet coming soon!

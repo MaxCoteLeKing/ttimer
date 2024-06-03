@@ -5,7 +5,8 @@ import (
 	"github.com/drgrib/ttimer/agent"
 	"github.com/drgrib/ttimer/parse"
 	"os"
-	"time"
+	"path/filepath"
+	"runtime"
 )
 
 //////////////////////////////////////////////
@@ -17,11 +18,35 @@ var args struct {
 	q bool
 }
 
+func UserHomeDir() string {
+	if runtime.GOOS == "windows" {
+		home := os.Getenv("HOMEDRIVE") + os.Getenv("HOMEPATH")
+		if home == "" {
+			home = os.Getenv("USERPROFILE")
+		}
+		return home
+	}
+	return os.Getenv("HOME")
+}
+
 func init() {
-	if os.Args[1] == "--install" {
-		fmt.Println("Install in progress...")
-		time.Sleep(3 * time.Second)
-		os.Exit(0)
+	if len(os.Args) > 1 {
+
+		if os.Args[1] == "--install" || os.Args[1] == "--silent" || os.Args[1] == "--silentWithProgress" {
+			ex, err := os.Executable()
+			if err != nil {
+				panic(err)
+			}
+			exPath := filepath.Dir(ex)
+			path := UserHomeDir()
+			fmt.Println("Adding ttimer to WindowsApp...")
+			err = os.Link(exPath+"\\ttimer.exe", path+"\\AppData\\Local\\Microsoft\\WindowsApps\\ttimer.exe")
+			if err != nil {
+				fmt.Println("Error adding ttimer to user path. You will have to do it manually :(")
+			}
+			fmt.Println("Success adding ttimer to path. You can now use it in cmd/powershell via ttimer :)")
+			os.Exit(0)
+		}
 	}
 
 	switch len(os.Args) {
@@ -38,7 +63,7 @@ func init() {
 	case 2:
 		args.t = os.Args[1]
 	default:
-		args.t = "1m"
+		args.t = "10s"
 	}
 }
 
@@ -57,9 +82,10 @@ func main() {
 
 	// start timer
 	t := agent.Timer{Title: title}
-	t.AutoQuit = args.q
+	t.AutoQuit = true
 	t.Start(d)
 
 	// run UI
 	t.CountDown()
+	os.Exit(0)
 }
